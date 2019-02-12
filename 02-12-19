@@ -1,0 +1,119 @@
+df = pd.read_csv("baseball.csv")
+df.head()
+
+# Plotting scatterplot
+plt.figure(figsize=(10,8))
+plt.scatter(x=moneyball0.W,y = moneyball0.RS,c="red")
+plt.scatter(x=moneyball1.W,y = moneyball1.RS,c="blue")
+plt.xlabel("Wins")
+plt.ylabel("Runs Scored")
+plt.axvline(x = 99)
+
+x = np.array(moneyball.RD)
+y = np.array(moneyball.W)
+# Deriving slope,intercept values
+slope, intercept = np.polyfit(x, y, 1)
+abline_values = [slope * i + intercept for i in x]
+#Plotting the figure
+plt.figure(figsize=(10,8))
+plt.scatter(x, y)
+plt.plot(x, abline_values, 'b')
+plt.title("Slope = %s" % (slope))
+plt.xlabel("Run Difference")
+plt.ylabel("Wins")
+plt.show()
+
+print(np.corrcoef(x,y))
+output:
+[[ 1.          0.93851498]
+ [ 0.93851498  1.        ]]
+ 
+ # Correlation between On-base percentage and runs scored.
+print(np.corrcoef(moneyball.OBP,moneyball.RS))
+output:
+[[ 1.          0.90490915]
+ [ 0.90490915  1.        ]]
+# Correlation between Slugging percentage and runs scored.
+print(np.corrcoef(moneyball.SLG,moneyball.RS))
+output:
+[[ 1.          0.92638433]
+ [ 0.92638433  1.        ]]
+# Correlation between batting average and runs scored.
+print(np.corrcoef(moneyball.BA,moneyball.RS))
+output:
+[[ 1.          0.83162475]
+ [ 0.83162475  1.        ]]
+ 
+ moneyballnew = moneyball.dropna()
+ 
+ 
+ # Extracting our variables from the dataframe.
+x = moneyball[['OBP','SLG','BA']].values
+y = moneyball[['RS']].values
+# Calling our model object.
+RS_model = LinearRegression()
+# Fitting the model.
+RS_model.fit(x,y)
+
+# Printing model intercept and coefficients.
+print(RS_model.intercept_)
+print(RS_model.coef_)
+Output:
+[-788.45704708]
+[[ 2917.42140821  1637.92766577  -368.96606009]]
+
+# Extracting our variables from the dataframe.
+x = moneyball[['OBP','SLG']].values
+y = moneyball[['RS']].values
+# Calling our model object.
+RS_model = LinearRegression()
+# Fitting the model.
+RS_model.fit(x,y)
+# Printing model intercept and coefficients.
+print(model.intercept_)
+print(model.coef_)
+Output:
+[-804.62706106]
+[[ 2737.76802227  1584.90860546]]
+
+# Extracting our variables from the dataframe.
+x = moneyballnew[['OOBP','OSLG']].values
+y = moneyballnew[['RA']].values
+# Calling our model object.
+RA_model = LinearRegression()
+# Fitting the model.
+RA_model.fit(x,y)
+# Printing model intercept and coefficients.
+print(RA_model.intercept_)
+print(RA_model.coef_)
+Output:
+[-837.37788861]
+[[ 2913.59948582  1514.28595842]]
+
+# Extracting our variables from the dataframe.
+x = moneyball[['RD']].values
+y = moneyball[['W']].values
+# Calling our model object.
+W_model = LinearRegression()
+# Fitting the model.
+W_model.fit(x,y)
+# Printing model intercept and coefficients.
+print(W_model.intercept_)
+print(W_model.coef_)
+Output:
+[ 80.88137472]
+[[ 0.10576562]]
+
+# Prediction for runs scored.
+RS_model.predict([[0.339,0.430]])
+Output:
+array([[ 804.98699884]])
+# Predictions for runs allowed.
+RA_model.predict([[0.307,0.373]])
+Output:
+array([[ 621.92581602]])
+
+# Prediction for wins.
+W_model.predict([[183]])
+Output:
+array([[ 100.23648363]])
